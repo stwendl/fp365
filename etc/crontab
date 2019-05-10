@@ -1,0 +1,1 @@
+0 12,15 * * 1-5	/bin/bash /root/MakeMap.bash

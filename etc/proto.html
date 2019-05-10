@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {
+	background-image: url("image.png");
+	background-repeat: no-repeat;
+}
+</style>
+
+<script>
+
+var desks = {
+	'000' : { 'x' : '384', 'y' : '688' },
+};
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+function cnvs_getCoordinates(e)
+{
+	x=e.clientX;
+	y=e.clientY;
+	document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
+}
+
+function cnvs_clearCoordinates()
+{
+	document.getElementById("xycoordinates").innerHTML="";
+}
+function circle(loc)
+{
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.globalAlpha = 0.2;
+	ctx.beginPath();
+	ctx.fillStyle = "red";
+	ctx.arc(desks[loc].x, desks[loc].y, 50, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fill();
+	ctx.globalAlpha = 1.0;
+}
+</script>
+
+
+
+<body>
+	<div id="coordiv" style="float:left;width:1398px;height:1871px;border:1px solid #c3c3c3" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()">
+		<canvas id="myCanvas" width="1398" height="1871"
+			style="border:1px solid #c3c3c3;">
+			Your browser does not support the canvas element.
+		</canvas>
+
+		// this is the page counter
+		<script>
+			circle(getUrlParameter('desk'));
+			if (localStorage.pagecount){
+				localStorage.pagecount=Number(localStorage.pagecount) +1;
+			} else {
+				localStorage.pagecount=1;
+			}
+			document.write("Visits: " + localStorage.pagecount + " time(s).");
+		</script>
+	</div>
+	<div id="xycoordinates"></div>
+</body>
+</html>
